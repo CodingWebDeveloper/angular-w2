@@ -1,0 +1,64 @@
+<div class="w-100">
+    <div class="container">
+        <h2 class="text-center mb-5">Book Review</h2>
+        @if (this.books.length === this.page - 1) {
+
+        @if (this.finished) {
+        <p>
+            The job is done.
+        </p>
+        } @else {
+        <h5>You rated all books</h5>
+        <div class="d-flex flex-column gap-3 align-items-center">
+            <button class="w-100" (click)="this.resetCollection()">I want to rate them again</button>
+            <button class="w-100" (click)="this.finish()">I am OK</button>
+        </div>
+        }
+
+        } @else {
+        <div class="d-flex gap-3 mb-3">
+            <div class="col-md-6">
+                <h6>
+                    {{this.getBook().title}}
+                </h6>
+                <p>
+                    {{this.getBook().description}}
+                </p>
+                <p>
+                    {{this.getBook().author}}
+                </p>
+                <span>Rating: </span><ngb-rating [formControl]="rating" />
+                @if(this.getBook().rating === 0) {
+                <div>
+                    <button (click)="this.rate()">Submit Rating</button>
+                </div>
+                }
+            </div>
+            <div class="col-md-6">
+                @if (this.getBook().rating > 0) {
+                <form [formGroup]="this.bookForm" (ngSubmit)="this.updateBook()">
+                    <div class="input-group mb-3">
+                        <input class="form-control border border-black" type="text" formControlName="title"
+                            placeholder="Title" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control border border-black" type="text" formControlName="description"
+                            placeholder="Description" />
+                    </div>
+                    <div class="input-group mb-3">
+                        <input class="form-control border border-black" type="text" formControlName="author"
+                            placeholder="Author" />
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+                }
+            </div>
+        </div>
+        <p>
+            Current Rating: {{averageRating()}}
+        </p>
+        }
+    </div>
+</div>
